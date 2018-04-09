@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: jke-db
+  name: santander-iib
   labels:
     app: @docker.container.name@
 spec:
@@ -16,7 +16,7 @@ spec:
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: jke-db
+  name: santander-iib 
   labels:
     app: @docker.container.name@
 spec:
@@ -27,9 +27,9 @@ spec:
         app: @docker.container.name@
     spec:
       containers:
-      - name: jke-db
+      - name: santander-iib
         image: @docker.qualified.image@
         imagePullPolicy: @docker.image.pull.policy@
         ports:
         - containerPort: @service.port@
-          name: mysql
+          name: iib 
