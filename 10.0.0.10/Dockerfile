@@ -31,7 +31,7 @@ RUN echo "IIB_10:" > /etc/debian_chroot  && \
     chown syslog:adm /var/log/syslog && \
     chmod +x /tmp/kernel_settings.sh;sync && \
     /tmp/kernel_settings.sh
-
+RUN mkdir /tmp/BARs/
 
 # Create user to run as
 RUN useradd --create-home --home-dir /home/iibuser -G mqbrkrs,sudo iibuser && \
@@ -47,6 +47,8 @@ COPY iib_manage.sh /usr/local/bin/
 COPY iib-license-check.sh /usr/local/bin/
 COPY iib_env.sh /usr/local/bin/
 RUN chmod +rx /usr/local/bin/*.sh
+COPY barfiles/build/*.bar /tmp/BARs/
+RUN chmod 755 /tmp/BARs/*.bar 
 
 # Set BASH_ENV to source mqsiprofile when using docker exec bash -c
 ENV BASH_ENV=/usr/local/bin/iib_env.sh
