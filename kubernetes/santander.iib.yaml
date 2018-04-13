@@ -10,6 +10,10 @@ spec:
     # the port that this service should serve on
   - port: @service.port@
     targetPort: @service.port@
+    name: IIB
+  - port: 7800
+    targetPort: 7800
+    name: webservice
   selector:
     app: @docker.container.name@
 ---
