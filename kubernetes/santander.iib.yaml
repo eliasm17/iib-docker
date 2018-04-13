@@ -31,7 +31,5 @@ spec:
         imagePullPolicy: @docker.image.pull.policy@
         ports:
         - containerPort: @service.port@
-          name: iib 
-	      environment:
-		      LICENSE: accept
+          name: iib
  
