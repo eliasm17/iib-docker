@@ -1,0 +1,9 @@
+{
+"sntdpoc_db": {
+    "host": "169.48.64.246",
+    "port": 30601,
+    "database": "sntdpoc_db",
+    "name": "mongodb",
+    "connector": "mongodb"
+  }
+}
