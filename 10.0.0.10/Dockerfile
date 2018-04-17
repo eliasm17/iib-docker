@@ -12,7 +12,7 @@ MAINTAINER Sam Rogers srogers@uk.ibm.com
 LABEL "ProductID"="447aefb5fd1342d5b893f3934dfded73" \
       "ProductName"="IBM Integration Bus" \
       "ProductVersion"="10.0.0.10"
-  
+
 # Install curl
 RUN apt-get update && \
     apt-get install -y curl && \
@@ -20,8 +20,8 @@ RUN apt-get update && \
 
 # Install IIB V10 Developer edition
 RUN mkdir /opt/ibm && \
-    curl http://public.dhe.ibm.com/ibmdl/export/pub/software/websphere/integration/10.0.0.10-IIB-LINUX64-DEVELOPER.tar.gz \
-    | tar zx --exclude iib-10.0.0.10/tools --directory /opt/ibm && \
+    curl http://192.168.183.132:8000/IBM_INTEGRATION_BUS_V10.0.0.10_FO.tar.gz \
+    | tar zx --directory /opt/ibm && \
     /opt/ibm/iib-10.0.0.10/iib make registry global accept license silently
 
 # Configure system
@@ -31,7 +31,6 @@ RUN echo "IIB_10:" > /etc/debian_chroot  && \
     chown syslog:adm /var/log/syslog && \
     chmod +x /tmp/kernel_settings.sh;sync && \
     /tmp/kernel_settings.sh
-RUN mkdir /tmp/BARs/
 
 # Create user to run as
 RUN useradd --create-home --home-dir /home/iibuser -G mqbrkrs,sudo iibuser && \
@@ -46,9 +45,11 @@ RUN sed -i 's/sha512/sha512 minlen=8/'  /etc/pam.d/common-password && \
 COPY iib_manage.sh /usr/local/bin/
 COPY iib-license-check.sh /usr/local/bin/
 COPY iib_env.sh /usr/local/bin/
-RUN chmod +rx /usr/local/bin/*.sh
-COPY *.bar /tmp/BARs/
-RUN chmod 755 /tmp/BARs/*.bar 
+COPY datasources.json /tmp/
+COPY mq_endpoint_policy.xml /tmp/
+
+RUN chmod +rx /tmp/datasources.json
+RUN chmod +rx /tmp/mq_endpoint_policy.xml
 
 # Set BASH_ENV to source mqsiprofile when using docker exec bash -c
 ENV BASH_ENV=/usr/local/bin/iib_env.sh
