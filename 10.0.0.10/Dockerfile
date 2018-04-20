@@ -47,8 +47,8 @@ COPY iib_manage.sh /usr/local/bin/
 COPY iib-license-check.sh /usr/local/bin/
 COPY iib_env.sh /usr/local/bin/
 RUN chmod +rx /usr/local/bin/*.sh
-#COPY *.bar /tmp/BARs/
-#RUN chmod 755 /tmp/BARs/*.bar 
+COPY *.bar /tmp/BARs/
+RUN chmod 755 /tmp/BARs/*.bar 
 
 # Set BASH_ENV to source mqsiprofile when using docker exec bash -c
 ENV BASH_ENV=/usr/local/bin/iib_env.sh
@@ -61,4 +61,3 @@ USER iibuser
 
 # Set entrypoint to run management script
 ENTRYPOINT ["iib_manage.sh"]
-
